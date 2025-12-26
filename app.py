@@ -100,7 +100,7 @@ def login():
         password = request.form.get("password")
 
         if username == "vincent" and password == "1234":
-            message = "Login success!"
+            return redirect(url_for("xss_lab"))
 
         elif username == "vincent" and password == "123456":
             return redirect(url_for("show_visit"))
@@ -109,6 +109,22 @@ def login():
             message = "帳號或密碼錯誤"
 
     return render_template("login.html", message=message)
+
+
+# =====================
+# XSS LAB
+# =====================
+
+xss_comments = []
+
+
+@app.route("/xss", methods=["GET", "POST"])
+def xss_lab():
+    content = ""
+    if request.method == "POST":
+        content = request.form.get("content", "")
+    return render_template("XSS.html", content=content)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
